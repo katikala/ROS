@@ -1,30 +1,53 @@
-pipeline{
-    environment{
-        registry= "vikaspolicedockerhub/admin-ros-frontend"
-        registryCredential= "Docker-Hub-Cred"
-        dockerImage= ''
+pipeline { 
+
+    environment { 
+
+        registry = "YourDockerhubAccount/YourRepository" 
+
+        registryCredential = 'dockerid' 
+
+        dockerImage = '' 
+
     }
-    
-  agent any
-  stages {
-     stage('Build docker image'){
-      steps{
-        echo "Building docker image"
-        script{
-          dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+
+    agent any 
+
+    stages { 
+
+        stage('Cloning our Git') { 
+
+            steps { 
+
+                git 'https://github.com/YourGithubAccount/YourGithubRepository.git'        }
+
+        } 
+
+        stage('Building our image') { 
+
+            steps { 
+
+                script { 
+
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+
+                }
+
+            } 
+
         }
-      }
-    }
-    stage('Push docker image'){
-      steps{
-        echo "Pushing docker image"
-        script{
-           docker.withRegistry('',registryCredential) {
-            dockerImage.push()
-            dockerImage.push('latest')
-          }
+        stage('Deploy our image') { 
+
+            steps { 
+
+                script { 
+
+                    docker.withRegistry( '', registryCredential ) { 
+
+                        dockerImage.push() 
+
+                    }
+
+                } 
+      } 
         }
-      }      
-    } 
-  }
-}
+        
