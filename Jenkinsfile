@@ -2,7 +2,7 @@ pipeline {
 
     environment { 
 
-        registry = "YourDockerhubAccount/YourRepository" 
+        registry = "2404999/docker" 
 
         registryCredential = 'dockerid' 
 
@@ -18,7 +18,7 @@ pipeline {
 
             steps { 
 
-                git 'https://github.com/YourGithubAccount/YourGithubRepository.git'        }
+                git 'https://github.com/katikala/ROS.git'        }
 
         } 
 
